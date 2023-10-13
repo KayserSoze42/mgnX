@@ -1,1 +1,6 @@
-ya.ml
+train_data_path: "data/train"
+val_data_path: "data/val"
+batch_size = 32
+learning_rate = 0.001
+epochs: 20
+model_save_path = "models/lwm1.pth"
