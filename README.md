@@ -14,14 +14,14 @@ Project built upon PyTorch foundations using the basics of CNN techniques and pr
 tl;dr or idk:
 
 
-- LWM
+- [LWM](https://github.com/KayserSoze42/mgnX/tree/main/lwm1)
 
     + "first draft" model utilizing smaller dataset, aimed for decent identification
             
     + designed for easy integration with a [mobile app](https://github.com/KayserSoze42/funGUI)
 
 
-- LLWM
+- [LLWM](https://github.com/KayserSoze42/mgnX/tree/main/llwm1)
 
     + "second draft" model utilizing larger dataset, aimed for improved identification
 

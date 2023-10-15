@@ -1,3 +1,9 @@
 # LWM-1
 
-"first draft - first blood"
+_"first draft - first blood"_
+
+mtl attempting af
+
+-------------------------------------------------
+
+Drawing out the _lightweight_ model..

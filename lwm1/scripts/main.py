@@ -8,7 +8,7 @@ from train_utils import train, validate
 # yaml me up, sci.py
 import yaml
 
-with open("config/settings.yaml", "r") as j8ream:
+with open("conf/settings.yaml", "r") as j8ream:
     config = yaml.safe_load(j8ream)
 
 # DS p

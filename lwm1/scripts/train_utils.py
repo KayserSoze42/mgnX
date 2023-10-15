@@ -1,6 +1,6 @@
 import torch
 
-def train_one_epoch(model, optimizer, train_loader, criterion, device, scheduler=None):
+def train(model, optimizer, train_loader, criterion, device, scheduler=None):
     
     model.train()
     total_loss = 0
@@ -22,7 +22,7 @@ def train_one_epoch(model, optimizer, train_loader, criterion, device, scheduler
 
     return total_loss / len(train_loader)
 
-def validate_model(model, val_loader, criterion, device):
+def validate(model, val_loader, criterion, device):
     
     model.eval()
     total_loss = 0
