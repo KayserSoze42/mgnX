@@ -1,39 +1,57 @@
 import torch.nn as nn
-import torch.nn.functional as F#, F#, bill y'all pt2
+from torch.nn.models import resnet50, ResNet50_Weights
 
 class LWM1CNN(nn.Module):
 
-    def __init__(self):
+    def __init__(self, num_mush_classes, num_surr_classes):
 
         super(LWM1CNN, self).__init__() # still u af, lol
 
-        # 5h4p3
-        # (batch_size, 3, 128, 128)
+        # baseg
+        self.baseg = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2) # deprecated=True, mhm
+        
+        # remove layers - the final countdown - !whitestripes, lol
+        self.features = nn.Sequential(*list(self.baseg.children())[:-1])
 
-        self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(16) # 1st ly batch normalization
+        # fine, just fine
+        for param in list(self.baseg.parameters())[:-6]:
+            param.requires_grad = False
 
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(32) # 2st ly batch normalization
+        # eraserheads
 
-        self.fc1 = nn.Linear(32*32*32, 256)
-        self.fc2 = nn.Linear(256, 10) # len(classes) == 10 / for noe at least / as always / we shall see shell ..
+        # mush
+        self.mush_head = nn.Sequential(
 
+                nn.Linear(2048, 256),
+                nn.BatchNorm1d(256),
+                nn.ReLU(),
+                nn.Dropout(0.5),
+                nn.Linear(256, num_mush_classes)
+
+        )
+
+        # surr
+        self.surr_head = nn.Sequential(
+
+                nn.Linear(2048, 256),
+                nn.BatchNorm1d(256),
+                nn.ReLU(),
+                nn.Dropout(0.5),
+                nn.Linear(256, num_surr_classes)
+
+        )
 
     def forward(self, x):
 
-        x = F.relu(self.bn1(self.conv1(x)))
-        x = F.max_pool2d(x, 2) # despacey half
+        # Xtr-resnet
+        x = self.features(x)
+        x = x.view(x.size(0), -1) # 1deez these deezes
 
-        x = F.relu(self.bn2(self.conv(x)))
-        x = F.max_pool2d(x, 2) # despacey another half
+        mush_out = self.mush_head(x)
+        surr_out = self.surr_head(x)
 
-        x = x.view(x.size(0), -1) # phlatten tomatoes
+        return mush_out, surr_out
 
-        x = F.relu(self.fc1(x))
-        x = F.dropout(x, 0.5)
-        x = self.fc2(x)
-
-        return x
-
-model = LWM1CNN()
+def setup_model(num_mush_classes, num_surr_classes):
+    model = LWM1CNN(num_mush_classes, num_surr_classes)
+    return model
